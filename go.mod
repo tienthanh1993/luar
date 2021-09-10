@@ -1,4 +1,4 @@
-module github.com/stevedonovan/luar
+module github.com/tienthanh1993/luar
 
 go 1.16
 
