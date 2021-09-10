@@ -1,5 +1,5 @@
 // Copyright (c) 2010-2016 Steve Donovan
-// +build lua53,lua54
+// +build lua51 OR lua52
 
 package luar
 
@@ -420,13 +420,13 @@ func goToLua(L *lua.State, a interface{}, proxify bool, visited visitor) {
 		if proxify && isNewType(v.Type()) {
 			makeValueProxy(L, vp, cNumberMeta)
 		} else {
-			L.PushInteger(v.Int())
+			L.PushNumber(float64(v.Int()))
 		}
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		if proxify && isNewType(v.Type()) {
 			makeValueProxy(L, vp, cNumberMeta)
 		} else {
-			L.PushInteger(int64(v.Uint()))
+			L.PushNumber(float64(v.Uint()))
 		}
 	case reflect.String:
 		if proxify && isNewType(v.Type()) {
@@ -774,10 +774,7 @@ func luaToGo(L *lua.State, idx int, v reflect.Value, visited map[uintptr]reflect
 		v.Set(reflect.ValueOf(L.ToBoolean(idx)))
 	case lua.LUA_TNUMBER:
 		switch k := unsizedKind(v); k {
-		case reflect.Int64, reflect.Uint64:
-			f := reflect.ValueOf(L.ToInteger(idx))
-			v.Set(f.Convert(v.Type()))
-		case reflect.Float64, reflect.Interface:
+		case reflect.Int64, reflect.Uint64, reflect.Float64, reflect.Interface:
 			// We do not use ToInteger as it may truncate the value. Let Go truncate
 			// instead in Convert().
 			f := reflect.ValueOf(L.ToNumber(idx))

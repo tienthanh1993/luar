@@ -1,4 +1,4 @@
-// +build lua53 OR lua54
+// +build lua51 OR lua52
 
 package luar
 
@@ -713,7 +713,7 @@ func TestLuaObjectMT(t *testing.T) {
 		// Note: we skip error checking.
 		v, _ := valueOfProxy(L, 1)
 		k := L.ToInteger(2)
-		L.PushString(strconv.Itoa(int(v.Index(k).Int())))
+		L.PushString(string(v.Index(k).Int()))
 		return 1
 	}
 
@@ -902,7 +902,7 @@ func TestLuaObjectIter(t *testing.T) {
 
 	wantValues := map[string]float64{"foo": 10, "bar": 20}
 	if !reflect.DeepEqual(values, wantValues) {
-		t.Errorf("got %q, want %v", keys, wantValues)
+		t.Errorf("got %q, want %q", keys, wantValues)
 	}
 
 	checkStack(t, L)
@@ -948,7 +948,7 @@ func TestLuaObjectIterMT(t *testing.T) {
 
 	wantValues := map[string]float64{"foo": 10, "bar": 20}
 	if !reflect.DeepEqual(values, wantValues) {
-		t.Errorf("got %q, want %v", keys, wantValues)
+		t.Errorf("got %q, want %q", keys, wantValues)
 	}
 
 	checkStack(t, L)
