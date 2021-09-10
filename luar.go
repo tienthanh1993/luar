@@ -1,5 +1,5 @@
 // Copyright (c) 2010-2016 Steve Donovan
-// +build lua53,lua54
+// +build lua53 lua54
 
 package luar
 
