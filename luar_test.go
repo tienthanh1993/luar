@@ -1,4 +1,4 @@
-// +build lua53 lua54
+// +build !lua52,!lua51
 
 package luar
 
